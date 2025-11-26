@@ -7,11 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+//import com.example.recuperatorioappsmoviles.ui.screens.HistoryScreen
+import com.example.recuperatorioappsmoviles.ui.screen.PlayScreen
 import com.example.recuperatorioappsmoviles.ui.theme.RecuperatorioAppsMovilesTheme
+// IMPORT DEL VIEWMODEL
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.recuperatorioappsmoviles.viewModels.GameViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +24,23 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RecuperatorioAppsMovilesTheme {
+                val viewModel: GameViewModel = viewModel()
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    NavHost(
+                        navController = navController,
+                        startDestination = "play",
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+                        composable("play") {
+                            PlayScreen(
+                                viewModel = viewModel,
+                            )
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RecuperatorioAppsMovilesTheme {
-        Greeting("Android")
     }
 }
