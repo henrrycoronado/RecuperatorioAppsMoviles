@@ -12,10 +12,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 //import com.example.recuperatorioappsmoviles.ui.screens.HistoryScreen
+import com.example.recuperatorioappsmoviles.ui.screen.SerieScreen
 import com.example.recuperatorioappsmoviles.ui.screen.PlayScreen
 import com.example.recuperatorioappsmoviles.ui.theme.RecuperatorioAppsMovilesTheme
-// IMPORT DEL VIEWMODEL
+
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.recuperatorioappsmoviles.viewModels.SerieViewModel
 import com.example.recuperatorioappsmoviles.viewModels.GameViewModel
 
 class MainActivity : ComponentActivity() {
@@ -24,18 +26,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RecuperatorioAppsMovilesTheme {
-                val viewModel: GameViewModel = viewModel()
+                val gameViewModel: GameViewModel = viewModel()
+                val serieViewModel: SerieViewModel = viewModel()
                 val navController = rememberNavController()
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = "play",
+                        startDestination = "serie_screen",
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("play") {
                             PlayScreen(
-                                viewModel = viewModel,
+                                viewModel = gameViewModel,
+                            )
+                        }
+                        composable("serie_screen") {
+                            SerieScreen(
+                                viewModel = serieViewModel,
                             )
                         }
                     }
